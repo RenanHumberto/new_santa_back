@@ -10,12 +10,22 @@ dotenv.config(); //carrega as variaveis de ambiente do arquivo .env
 
 
 const app = express();
-//pra colocar o meu frontend
+// Configuração do CORS
 app.use(cors({
-  origin: 'https://santacruzsocios.netlify.app', // Domínio do frontend no Netlify
+  origin: 'https://santacruzsocios.netlify.app',
   methods: ['GET', 'POST', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // Se precisar enviar cookies ou autenticação
 }));
+
+app.options('*', cors({
+  origin: 'https://santacruzsocios.netlify.app',
+  methods: ['GET', 'POST', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}));
+
+
 connectDatabase();
 app.use(express.json()); //adiciona suporte para JSON
 app.use("/cadastro", cadastroRoute); //testando git pull 
