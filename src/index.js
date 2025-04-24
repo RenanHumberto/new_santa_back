@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 //pra colocar o meu frontend
 app.use(cors({
-    origin: '*', // Substitua pelo domínio do seu frontend no Netlify
+    origin: 'https://santacruzsocios.netlify.app/', // Substitua pelo domínio do seu frontend no Netlify
     methods: ['GET', 'POST', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   }));
