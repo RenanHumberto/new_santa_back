@@ -1,9 +1,9 @@
-import express from 'express'; // Adicione esta linha
-import { login, getUsuario } from '../controllers/auth.controller.js';
+import express from 'express';
+import authController from '../controllers/auth.controller.js';
 
 const route = express.Router();
 
-route.post('/login', login); // Endpoint para login
-route.get('/usuario', getUsuario); // Endpoint para buscar dados do usuário autenticado
+route.post('/login', authController.login);
+route.get('/usuario', authController.getUser); // Corrigido de getUsuario para getUser
 
 export default route;
