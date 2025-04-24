@@ -31,11 +31,14 @@ const login = async (req, res) => {
 const getUser = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
+    console.log('Token recebido no getUser:', token); // Log para depuração
     if (!token) {
       return res.status(401).json({ message: 'Token não fornecido' });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'seu-segredo-aqui');
+    console.log('Token decodificado:', decoded); // Log para depuração
+
     const cadastro = await cadastroService.findByIdService(decoded.id);
     if (!cadastro) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
@@ -43,6 +46,7 @@ const getUser = async (req, res) => {
 
     res.status(200).json({ _id: cadastro._id, email: cadastro.email, plano: cadastro.plano });
   } catch (error) {
+    console.error('Erro no getUser:', error.message); // Log para depuração
     res.status(500).json({ message: error.message });
   }
 };
