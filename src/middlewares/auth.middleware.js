@@ -6,19 +6,28 @@ const authMiddleware = (req, res, next) => {
 
   // Tentar acessar o header Authorization de várias formas
   const authHeader = req.headers.authorization || req.headers.Authorization;
-  console.log('Header Authorization:', authHeader);
+  console.log('Header Authorization (bruto):', authHeader);
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    console.log('Header Authorization ausente ou mal formatado');
+  // Verificar se o header existe
+  if (!authHeader) {
+    console.log('Header Authorization ausente');
     return res.status(401).json({ message: 'Token não fornecido.' });
   }
 
-  // Extrair o token
-  const token = authHeader.split(' ')[1];
+  // Usar uma expressão regular para extrair o token
+  const tokenMatch = authHeader.match(/^Bearer\s+(\S+)/i);
+  console.log('Resultado do match:', tokenMatch);
+
+  if (!tokenMatch) {
+    console.log('Header Authorization não contém Bearer token');
+    return res.status(401).json({ message: 'Token não fornecido.' });
+  }
+
+  const token = tokenMatch[1];
   console.log('Token extraído:', token);
 
   if (!token) {
-    console.log('Token não encontrado após split');
+    console.log('Token não encontrado após extração');
     return res.status(401).json({ message: 'Token não fornecido.' });
   }
 
